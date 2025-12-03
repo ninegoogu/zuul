@@ -1,5 +1,8 @@
 package w13;
 
+/**
+ * This class is part of the "World of Zuul" application.
+ */
 public class CommandWords {
 	// 유효한 명령어들을 가지고 있는 상수 배열.
 	private static final String[] validCommands = { "go", "quit", "help" };

@@ -1,5 +1,8 @@
 package w13;
 
+/**
+ * This class is part of the "World of Zuul" application.
+ */
 public class Command {
 	private String commandWord;
 	private String secondWord;
@@ -27,8 +30,9 @@ public class Command {
 	}
 
 	/**
-	 * @return The second word of this command. Returns null if there was no second
-	 *         word.
+	 * 두 번째 단어를 반환한다.
+	 * 
+	 * @return The second word of this command. Returns null if there was no second word.
 	 */
 	public String getSecondWord() {
 		return secondWord;
@@ -44,7 +48,7 @@ public class Command {
 	}
 
 	/**
-	 * 이 Command가 두번째단어를 가지고 있는가?
+	 * 이 Command가 두 번째 단어를 가지고 있는가?
 	 * 
 	 * @return true if the command has a second word.
 	 */

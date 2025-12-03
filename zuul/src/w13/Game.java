@@ -1,11 +1,14 @@
 package w13;
 
+/**
+ * Class Room - a room in an adventure game.
+ */
 public class Game {
 	private Parser parser;
 	private Room currentRoom;
 
 	/**
-	 * Create the game and initialise its internal map.
+	 * Create the game and initialize its internal map.
 	 */
 	public Game() {
 		createRooms();
@@ -64,24 +67,7 @@ public class Game {
 		System.out.println("Type 'help' if you need help.");
 		System.out.println();
 
-		
-		// 현재 있는 방에 대한 정보 출력
-		System.out.println("Location: " + currentRoom.getDescription());
-		// 출구가 있는 방향을 모두 출력
-		System.out.print("Exits: ");
-		if (currentRoom.northExit != null) {
-			System.out.print("north ");
-		}
-		if (currentRoom.eastExit != null) {
-			System.out.print("east ");
-		}
-		if (currentRoom.southExit != null) {
-			System.out.print("south ");
-		}
-		if (currentRoom.westExit != null) {
-			System.out.print("west ");
-		}
-		System.out.println();
+		printLocationInfo();
 	}
 
 	/**
@@ -157,24 +143,7 @@ public class Game {
 			System.out.println("No exit in that direction!");
 		} else {
 			currentRoom = nextRoom; // 방을 변경
-
-			// 새 방에 대한 정보 출력
-			System.out.println("Location: " + currentRoom.getDescription());
-			// 출구가 있는 방향을 모두 출력
-			System.out.print("Exits: ");
-			if (currentRoom.northExit != null) {
-				System.out.print("north ");
-			}
-			if (currentRoom.eastExit != null) {
-				System.out.print("east ");
-			}
-			if (currentRoom.southExit != null) {
-				System.out.print("south ");
-			}
-			if (currentRoom.westExit != null) {
-				System.out.print("west ");
-			}
-			System.out.println();
+			printLocationInfo();
 		}
 	}
 
@@ -193,7 +162,30 @@ public class Game {
 			return true; // signal that we want to quit
 		}
 	}
-
+	
+	/**
+	 * 현재 있는 방에 대한 정보와 출구가 있는 모든 방향을 출력한다.
+	 */
+	private void printLocationInfo() {
+		// 현재 있는 방에 대한 정보 출력
+		System.out.println("Location: " + currentRoom.getDescription());
+		// 출구가 있는 방향을 모두 출력
+		System.out.print("Exits: ");
+		if (currentRoom.northExit != null) {
+			System.out.print("north ");
+		}
+		if (currentRoom.eastExit != null) {
+			System.out.print("east ");
+		}
+		if (currentRoom.southExit != null) {
+			System.out.print("south ");
+		}
+		if (currentRoom.westExit != null) {
+			System.out.print("west ");
+		}
+		System.out.println();
+	}
+	
 	public static void main(String[] args) {
 		(new Game()).play();
 	}

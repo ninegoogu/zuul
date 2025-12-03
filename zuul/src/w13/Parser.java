@@ -2,6 +2,9 @@ package w13;
 
 import java.util.Scanner;
 
+/**
+ * This class is part of the "World of Zuul" application.
+ */
 public class Parser {
 	private CommandWords commands; // 유효한 명령어들을 보관하고 있는 객체
 	private Scanner reader; // 명령이 입력되는 곳
@@ -15,6 +18,8 @@ public class Parser {
 	}
 
 	/**
+	 * 다음 명령어를 입력받아서 반환한다.
+	 * 
 	 * @return The next command from the user.
 	 */
 	public Command getCommand() {

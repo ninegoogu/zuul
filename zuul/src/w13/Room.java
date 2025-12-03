@@ -1,10 +1,28 @@
 package w13;
 
+/**
+ * This class is part of the "World of Zuul" application.
+ */
 public class Room {
-	public String description; // 이 Room에 대한 설명.
-	public Room northExit; // 북쪽 방향으로 이웃한 Room을 가리키는 참조변수.
+	/**
+	 * 이 Room에 대한 설명
+	 */
+	public String description;
+	/**
+	 * 북쪽 방향으로 이웃한 Room을 가리키는 참조변수.
+	 */
+	public Room northExit;
+	/**
+	 * 남쪽 방향으로 이웃한 Room을 가리키는 참조변수.
+	 */
 	public Room southExit;
+	/**
+	 * 동쪽 방향으로 이웃한 Room을 가리키는 참조변수.
+	 */
 	public Room eastExit;
+	/**
+	 * 서쪽 방향으로 이웃한 Room을 가리키는 참조변수.
+	 */
 	public Room westExit;
 
 	/**
@@ -37,6 +55,8 @@ public class Room {
 	}
 
 	/**
+	 * Room에 대한 설명을 반환한다.
+	 * 
 	 * @return The description of the room.
 	 */
 	public String getDescription() {
