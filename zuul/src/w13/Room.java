@@ -1,14 +1,16 @@
 package w13;
 
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Set;
+import java.util.Iterator;
+
 /**
  * This class is part of the "World of Zuul" application.
  */
 public class Room {
 	private String description;
-	private Room northExit;
-	private Room southExit;
-	private Room eastExit;
-	private Room westExit;
+	private Map<String, Room> exits;
 
 	/**
 	 * "description" 설명에 해당하는 Room을 구성한다. 초기에는 exit을 갖지 않는다. "description"은 가령
@@ -18,6 +20,7 @@ public class Room {
 	 */
 	public Room(String description) {
 		this.description = description;
+		exits = new HashMap<String, Room>();
 	}
 
 	/**
@@ -30,13 +33,13 @@ public class Room {
 	 */
 	public void setExits(Room north, Room east, Room south, Room west) {
 		if (north != null)
-			northExit = north;
+			exits.put("north", north);
 		if (east != null)
-			eastExit = east;
+			exits.put("east", east);
 		if (south != null)
-			southExit = south;
+			exits.put("south", south);
 		if (west != null)
-			westExit = west;
+			exits.put("west", west);
 	}
 	
 	/**
@@ -45,18 +48,7 @@ public class Room {
 	 * @return 나가려고 하는 방향으로 연결된 Room, 그 방향으로 출구가 없으면 null.
 	 */
 	public Room getExit(String direction) {
-		Room exit; //direction 방향에 있는 Room
-		if ("north".equals(direction))
-			exit = northExit;
-		else if ("east".equals(direction))
-			exit = eastExit;
-		else if ("south".equals(direction))
-			exit = southExit;
-		else if ("west".equals(direction))
-			exit = westExit;
-		else
-			exit = null;
-		return exit;
+		return exits.get(direction);
 	}
 	
 	/**
@@ -66,14 +58,16 @@ public class Room {
 	 */
 	public String getExitString() {
 		StringBuilder s = new StringBuilder("Exits: ");
-		if (northExit != null)
-			s.append("north ");
-		if (eastExit != null)
-			s.append("east ");
-		if (southExit != null)
-			s.append("south ");
-		if (westExit != null)
-			s.append("west ");
+		
+		//Map에 있는 key들을 모두 읽어냄.
+		Set<String> keys = exits.keySet();
+		
+		//Set에 들어 있는 문자열들을 읽어냄.
+		Iterator<String> it = keys.iterator();
+		
+		while (it.hasNext())
+			s.append(it.next() + " ");
+		
 		return s.toString();
 	}
 
