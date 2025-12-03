@@ -4,26 +4,11 @@ package w13;
  * This class is part of the "World of Zuul" application.
  */
 public class Room {
-	/**
-	 * 이 Room에 대한 설명
-	 */
-	public String description;
-	/**
-	 * 북쪽 방향으로 이웃한 Room을 가리키는 참조변수.
-	 */
-	public Room northExit;
-	/**
-	 * 남쪽 방향으로 이웃한 Room을 가리키는 참조변수.
-	 */
-	public Room southExit;
-	/**
-	 * 동쪽 방향으로 이웃한 Room을 가리키는 참조변수.
-	 */
-	public Room eastExit;
-	/**
-	 * 서쪽 방향으로 이웃한 Room을 가리키는 참조변수.
-	 */
-	public Room westExit;
+	private String description;
+	private Room northExit;
+	private Room southExit;
+	private Room eastExit;
+	private Room westExit;
 
 	/**
 	 * "description" 설명에 해당하는 Room을 구성한다. 초기에는 exit을 갖지 않는다. "description"은 가령
@@ -52,6 +37,44 @@ public class Room {
 			southExit = south;
 		if (west != null)
 			westExit = west;
+	}
+	
+	/**
+	 * 지정된 방향으로 나가려고 할 때 연결되는 Room을 알려준다.
+	 * @param direction 나가려고 하는 방향 "north", "east", "south", "west"
+	 * @return 나가려고 하는 방향으로 연결된 Room, 그 방향으로 출구가 없으면 null.
+	 */
+	public Room getExit(String direction) {
+		Room exit; //direction 방향에 있는 Room
+		if ("north".equals(direction))
+			exit = northExit;
+		else if ("east".equals(direction))
+			exit = eastExit;
+		else if ("south".equals(direction))
+			exit = southExit;
+		else if ("west".equals(direction))
+			exit = westExit;
+		else
+			exit = null;
+		return exit;
+	}
+	
+	/**
+	 * 방의 출구들을 알려주는 문자열을 반환한다.
+	 * 문자열 예: "Exits: north west ".
+	 * @return 출구가 있는 방향들을 알려주는 문자열
+	 */
+	public String getExitString() {
+		StringBuilder s = new StringBuilder("Exits: ");
+		if (northExit != null)
+			s.append("north ");
+		if (eastExit != null)
+			s.append("east ");
+		if (southExit != null)
+			s.append("south ");
+		if (westExit != null)
+			s.append("west ");
+		return s.toString();
 	}
 
 	/**
