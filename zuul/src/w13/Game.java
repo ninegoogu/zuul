@@ -6,6 +6,7 @@ package w13;
 public class Game {
 	private Parser parser;
 	private Room currentRoom;
+	private Room recentRoom;
 
 	/**
 	 * Create the game and initialize its internal map.
@@ -108,6 +109,8 @@ public class Game {
 			look();
 		} else if (commandWord.equals("eat")) {
 			eat();
+		} else if (commandWord.equals("back")) {
+			back(command);
 		} else if (commandWord.equals("quit")) {
 			wantToQuit = quit(command);
 		}
@@ -145,6 +148,7 @@ public class Game {
 		if (nextRoom == null) {
 			System.out.println("No exit in that direction!");
 		} else {
+			recentRoom = currentRoom;
 			currentRoom = nextRoom; // 방을 변경
 			printLocationInfo();
 		}
@@ -162,6 +166,22 @@ public class Game {
 	 */
 	private void eat() {
 		System.out.println("Delicious!");
+	}
+	
+	/**
+	 * 이전 방으로 되돌아간다.
+	 * 한 단계 전으로만 돌아갈 수 있으며, back 명령어는 두 번째 단어를 가질 수 없다.
+	 */
+	private void back(Command command) {
+		if (command.hasSecondWord()) {
+			System.out.println("한 단계 전으로만 돌아갈 수 있습니다.");
+			System.out.println("back 명령어는 두 번째 단어를 가질 수 없습니다.");
+			return;
+		}
+		
+		if (recentRoom != null)
+			currentRoom = recentRoom;
+		printLocationInfo();
 	}
 
 	/*
