@@ -48,8 +48,9 @@ public class Game {
 		cellar.setExit("up", computerRoom);
 		
 		// put the items
-		computerRoom.setItem(new Item("book", "오래된 마법서", 10));
-		dongBang.setItem(new Item("portion", "체력을 5만큼 올려주는 묘약", 5));
+		computerRoom.addItem(new Item("book", "오래된 마법서", 10));
+		dongBang.addItem(new Item("portion", "체력을 5만큼 올려주는 묘약", 5));
+		dongBang.addItem(new Item("book", "AI tech book", 7));
 
 		currentRoom = hall; // 홀에서 게임을 시작한다.
 	}
