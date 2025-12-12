@@ -11,6 +11,7 @@ import java.util.Iterator;
 public class Room {
 	private String description;
 	private Map<String, Room> exits;
+	private Item item;
 
 	/**
 	 * "description" 설명에 해당하는 Room을 구성한다. 초기에는 exit을 갖지 않는다. "description"은 가령
@@ -32,6 +33,14 @@ public class Room {
 		// neighbor이 null일 때는 map에 넣지 않고 무시한다.
 		if (neighbor != null)
 			exits.put(direction, neighbor);
+	}
+	
+	/**
+	 * 이 Room에 item을 놓는다.
+	 * @param item 놓을 아이템.
+	 */
+	public void setItem(Item item) {
+		this.item = item;
 	}
 	
 	/**
@@ -76,7 +85,14 @@ public class Room {
 	 * @return Room의 상세한 정보를 모두 모아 문자열로 반환한다.
 	 */
 	public String getLongDescription() {
-		return description + ".\n" + getExitString();
+		StringBuilder s = new StringBuilder();
+		s.append(description + ".\n");
+		s.append(getExitString());
+		if (item != null) {
+			s.append("\n<Item>");
+			s.append("\n" + item.getLongDescription());
+		}
+		return s.toString();
 	}
 
 }
