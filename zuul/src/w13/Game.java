@@ -5,8 +5,8 @@ package w13;
  */
 public class Game {
 	private Parser parser;
-	private Room currentRoom;
-	private Room recentRoom;
+	private Room hall, lectureRoom, computerRoom, office, dongBang, cellar;
+	private Player player;
 
 	/**
 	 * Create the game and initialize its internal map.
@@ -14,14 +14,13 @@ public class Game {
 	public Game() {
 		createRooms();
 		parser = new Parser();
+		player = new Player(hall);
 	}
 
 	/**
 	 * Create all the rooms and link their exits together. 방들을 만들고 방의 출구들을 서로 엮어준다.
 	 */
 	private void createRooms() {
-		Room hall, lectureRoom, computerRoom, office, dongBang, cellar;
-
 		// create the rooms
 		hall = new Room("Hall");
 		lectureRoom = new Room("Lecture room");
@@ -51,8 +50,6 @@ public class Game {
 		computerRoom.addItem(new Item("book", "오래된 마법서", 10));
 		dongBang.addItem(new Item("portion", "체력을 5만큼 올려주는 묘약", 5));
 		dongBang.addItem(new Item("book", "AI tech book", 7));
-
-		currentRoom = hall; // 홀에서 게임을 시작한다.
 	}
 
 	/**
@@ -84,7 +81,7 @@ public class Game {
 		System.out.println("Type 'help' if you need help.");
 		System.out.println();
 
-		printLocationInfo();
+		printLocationInfo(player.getCurrentRoom());
 	}
 
 	/**
@@ -134,8 +131,9 @@ public class Game {
 	}
 
 	/*
-	 * go 명령일 때 이 메소드가 실행된다. "두번째단어"로 north, east, south, west 중 하나가 주어져야 한다. 주어진
-	 * 방향으로의 이동을 시도한다. 그 방향으로 방이 연결되어 있지 않은 경우에는 에러 메세지를 출력한다.
+	 * go 명령일 때 이 메소드가 실행된다. "두 번째 단어"로 옮겨갈 방향이 주어져야 한다.
+	 * 주어진 방향으로의 이동을 시도한다.
+	 * 그 방향으로 방이 연결되어 있지 않은 경우에는 에러 메세지를 출력한다.
 	 */
 	private void goRoom(Command command) {
 		if (!command.hasSecondWord()) {
@@ -145,25 +143,18 @@ public class Game {
 		}
 
 		String direction = command.getSecondWord();
-
-		// Try to leave current room.
-		Room nextRoom = null;
-		nextRoom = currentRoom.getExit(direction);
 		
-		if (nextRoom == null) {
+		if (player.moveTo(direction) == -1)
 			System.out.println("No exit in that direction!");
-		} else {
-			recentRoom = currentRoom;
-			currentRoom = nextRoom; // 방을 변경
-			printLocationInfo();
-		}
+		else
+			printLocationInfo(player.getCurrentRoom());
 	}
 	
 	/**
 	 * 현재 방의 상세 정보를 출력한다.
 	 */
 	private void look() {
-		printLocationInfo();
+		printLocationInfo(player.getCurrentRoom());
 	}
 	
 	/**
@@ -184,9 +175,8 @@ public class Game {
 			return;
 		}
 		
-		if (recentRoom != null)
-			currentRoom = recentRoom;
-		printLocationInfo();
+		player.back();
+		printLocationInfo(player.getCurrentRoom());
 	}
 
 	/*
@@ -207,9 +197,10 @@ public class Game {
 	
 	/**
 	 * 현재 있는 방에 대한 정보와 출구가 있는 모든 방향을 출력한다.
+	 * @param room 정보를 출력할 방.
 	 */
-	private void printLocationInfo() {
-		System.out.println("Location: " + currentRoom.getLongDescription());
+	private void printLocationInfo(Room room) {
+		System.out.println("Location: " + room.getLongDescription());
 	}
 	
 	public static void main(String[] args) {
