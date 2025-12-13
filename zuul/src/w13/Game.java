@@ -1,5 +1,7 @@
 package w13;
 
+import java.util.List;
+
 /**
  * Class Room - a room in an adventure game.
  */
@@ -14,7 +16,7 @@ public class Game {
 	public Game() {
 		createRooms();
 		parser = new Parser();
-		player = new Player(hall);
+		player = new Player(hall, 20);
 	}
 
 	/**
@@ -113,6 +115,12 @@ public class Game {
 			eat();
 		} else if (commandWord.equals("back")) {
 			back(command);
+		} else if (commandWord.equals("take")) {
+			take(command);
+		} else if (commandWord.equals("drop")) {
+			drop(command);
+		} else if (commandWord.equals("items")) {
+			items();
 		} else if (commandWord.equals("quit")) {
 			wantToQuit = quit(command);
 		}
@@ -178,6 +186,58 @@ public class Game {
 		player.back();
 		printLocationInfo(player.getCurrentRoom());
 	}
+	
+	/**
+	 * 아이템을 집어 든다.
+	 * @param command 이 작업을 하게 만든 명령
+	 */
+	private void take(Command command) {
+		if (!command.hasSecondWord()) {
+			System.out.println("Which item?");
+			return;
+		}
+		
+		String itemName = command.getSecondWord();
+		
+		Item item = player.takeItem(itemName);
+		
+		if (item == null)
+			System.out.println("Cannot take item.");
+		else {
+			List<Item> items = player.getItems();
+			printItems(items);
+		}
+	}
+	
+	/**
+	 * 아이템을 내려 놓는다.
+	 * @param command 이 작업을 하게 만든 명령.
+	 */
+	private void drop(Command command) {
+		if (!command.hasSecondWord()) {
+			System.out.println("Which item?");
+			return;
+		}
+		
+		String itemName = command.getSecondWord();
+		
+		Item item = player.dropItem(itemName);
+		
+		if (item == null)
+			System.out.println("You don't have that item.");
+		else {
+			List<Item> items = player.getItems();
+			printItems(items);
+		}
+		
+	}
+	
+	/**
+	 * 가지고 있는 아이템들의 상세 내역을 출력한다.
+	 */
+	private void items() {
+		printItems(player.getItems());
+	}
 
 	/*
 	 * "Quit" was entered. Check the rest of the command to see whether we really
@@ -201,6 +261,23 @@ public class Game {
 	 */
 	private void printLocationInfo(Room room) {
 		System.out.println("Location: " + room.getLongDescription());
+	}
+	
+	/**
+	 * 지정된 List에 있는 모든 아이템들의 상세 내역을 출력한다.
+	 * 아이템들의 총 무게와 이 선수가 들 수 있는 최대 무게도 함께 출력한다.
+	 * @param items 출력할 아이템들이 들어 있는 List.
+	 */
+	private void printItems(List<Item> items) {
+		int sum = 0;
+		System.out.println("<Carrying Items>");
+		
+		for (Item item : items) {
+			System.out.println(item.getLongDescription());
+			sum += item.getWeight();
+		}
+		
+		System.out.println("<Total weight: " + sum + ", max weight: " + player.getMaxWeight() + ">");
 	}
 	
 	public static void main(String[] args) {

@@ -47,8 +47,25 @@ public class Room {
 	}
 	
 	/**
+	 * 이 Room에서 아이템을 제거한다.
+	 * @param name 이 Room에서 제거할 아이템의 이름.
+	 * @return 제거된 아이템(제거에 성공한 경우), null(제거에 실패한 경우).
+	 */
+	public Item removeItem(String name) {
+		Iterator<Item> it = items.iterator();
+		while (it.hasNext()) {
+			Item item = it.next();
+			if (item.getName().equals(name)) {
+				it.remove();
+				return item;
+			}
+		}
+		return null;
+	}
+	
+	/**
 	 * 지정된 방향으로 나가려고 할 때 연결되는 Room을 알려준다.
-	 * @param direction 나가려고 하는 방향 "north", "east", "south", "west"
+	 * @param direction 나가려고 하는 방향.
 	 * @return 나가려고 하는 방향으로 연결된 Room, 그 방향으로 출구가 없으면 null.
 	 */
 	public Room getExit(String direction) {
